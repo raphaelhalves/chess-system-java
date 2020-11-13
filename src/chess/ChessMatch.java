@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -30,6 +32,45 @@ public class ChessMatch {
 		}
 		return mat;
 	}
+	
+	//método responsável por setar uma posição nova
+	public ChessPiece performChessmove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+		Position source = sourcePosition.toPosition();
+		Position target = targetPosition.toPosition();
+		
+		//operação responsável por validar a posição de origem, se realmente existe uma peça na posição de origem
+		validateSourcePosition(source);
+		Piece capturedPiece = makeMove(source, target);
+		//downcasting para ChessPiece porque a variável capturedPiece era do tipo Piece
+		return (ChessPiece)capturedPiece;
+		
+	}
+	
+	//como dito acima, esse método retorno se de fato existe uma peça na posição de origem, para só depois movê-la para seu destino
+	private void validateSourcePosition(Position position) {
+		
+		//lançando uma exceção para a hipótese de não existir uma peça na posição de origem
+		if(!board.thereIsAPiece(position)) {
+			throw new ChessException("There is no piece on source position");
+		}
+	}
+	
+	//método responsável por movimentar a peça, recebendo uma posição de origem, e uma posição de destino
+	private Piece makeMove(Position source, Position target) {
+		
+		//retirei a peça na posição de origem
+		Piece p = board.removePiece(source);
+		
+		//peça capturada, remover a peça na posição de destino, sai p entrar a nova peça
+		Piece capturedPiece = board.removePiece(target);
+		
+		//agora a variável "p" que representa a posição de destino passará a valer a nova posição, a qual inclusive removeu uma peça q estava nela
+		board.placePiece(p, target);
+		return capturedPiece;
+	}
+	
+	
+	
 	
 	//colocar nova peça
 	private void placeNewPiece(char column, int row, ChessPiece piece) {

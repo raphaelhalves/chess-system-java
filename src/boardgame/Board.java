@@ -70,6 +70,30 @@ public class Board {
 		piece.position = position;
 	}
 	
+	//método responsável por remover uma peça
+	public Piece removePiece(Position position) {
+		
+		//programação defensiva, lançando uma exceção na hipótese de não existir a posição selecionada
+		if (!positionExists(position)) {
+			throw new BoardException("Position not on the board");
+		}
+		
+		//se a posição for igual a nulo (lembre que nulo é caracterizada por "-", ou seja, posição vaga e não tem uma peça ali
+		if(piece(position) == null) {
+			return null;
+		}
+		
+		//criou uma variável do tipo "peça" recebendo a posição e depois alterando para nulo, ou seja, remove a peça e passa a ficar com espaço vago "-"
+		Piece aux = piece(position);
+		aux.position = null;
+		pieces[position.getRow()][position.getColumn()] = null;
+		return aux;
+	}
+	
+	
+	
+	
+	
 	
 	//essa posição existe? esse método vai verificar se a posição está dentro da matriz 8x8(tabuleiro)
 	private boolean positionExists(int row, int column) {
@@ -89,6 +113,10 @@ public class Board {
 		}
 		return piece(position) != null;
 	}
+	
+	
+	
+	
 	
 	
 	
