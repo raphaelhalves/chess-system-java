@@ -40,6 +40,10 @@ public class ChessMatch {
 		
 		//operação responsável por validar a posição de origem, se realmente existe uma peça na posição de origem
 		validateSourcePosition(source);
+		
+		//Operação responsável por validar a posição de destino da peça, se realmente a peça pode fazer o movimento para essa nova posição
+		validateTargetPosition(source, target);
+		
 		Piece capturedPiece = makeMove(source, target);
 		//downcasting para ChessPiece porque a variável capturedPiece era do tipo Piece
 		return (ChessPiece)capturedPiece;
@@ -60,6 +64,14 @@ public class ChessMatch {
 		}
 	}
 	
+	private void validateTargetPosition(Position source, Position target) {
+		
+		//a condição é se para a peça de origem o movimento NÃO é possível para o destino, significa que não pode mexer para lá
+		if(!board.piece(source).possibleMove(target)) {
+			throw new ChessException("The chosen piece can't move to target position");
+		}
+	}
+	
 	//método responsável por movimentar a peça, recebendo uma posição de origem, e uma posição de destino
 	private Piece makeMove(Position source, Position target) {
 		
@@ -73,8 +85,6 @@ public class ChessMatch {
 		board.placePiece(p, target);
 		return capturedPiece;
 	}
-	
-	
 	
 	
 	//colocar nova peça
