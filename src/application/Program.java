@@ -1,7 +1,9 @@
 package application;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
@@ -14,6 +16,10 @@ public class Program {
 		ChessMatch chessMatch = new ChessMatch();
 
 		while (true) {
+			try {
+			//método retirado do stackeroverflow para limpar a tela do terminal após a jogada, mantendo apenas o tabuleiro atual
+			UI.clearScreen();
+			
 			//imprimir o tabuleiro na tela
 			UI.printBoard(chessMatch.getPieces());
 			
@@ -27,6 +33,15 @@ public class Program {
 			ChessPosition target = UI.readChessPosition(sc);
 			
 			ChessPiece capturedPiece = chessMatch.performChessmove(source, target);
+			}
+			catch(ChessException e) {
+				System.out.println(e.getMessage());
+				sc.nextLine();
+			}
+			catch(InputMismatchException e) {
+				System.out.println(e.getMessage());
+				sc.nextLine();
+			}
 		}
 		
 		

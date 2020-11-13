@@ -30,6 +30,13 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	//código pego no stackeroverflow - AULA 157 - para limpar a tela do terminal git após a atualização de uma nova jogada, mostrando apenas o tabuleiro atual
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+	
+	
 	//método responsável por fazer a leitura da posição
 	public static ChessPosition readChessPosition(Scanner sc) {
 		
