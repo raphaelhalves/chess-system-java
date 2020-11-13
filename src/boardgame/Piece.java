@@ -1,6 +1,6 @@
 package boardgame;
 
-public class Piece {
+public abstract class Piece {
 
 	//não é a posição do xadrez, mas uma posição simples da matriz, só é visível dentro do pacote boardgame
 	
@@ -22,5 +22,33 @@ public class Piece {
 	}
 
 	//não há o setBoard pois não será permitido a alteração do tabuleiro
+	
+	
+	//operação para verificar os movimentos possíveis de uma peça, abstrata pq aqui é muito genérica, cada peça seguirá uma ordem específica de movimentação
+	public abstract boolean[][] possibleMoves();
+	
+	
+	//testar positivo ou falso sobre a possibilidade da peça se mover
+	public boolean possibleMove(Position position) {
+		return possibleMoves()[position.getRow()][position.getColumn()];
+	}
+	
+	//existe pelo menos um movimento possível para a peça? ou está travada?
+	public boolean isThereAnyPossibleMove() {
+		
+		boolean[][] mat = possibleMoves();
+		
+		//vai percorrer toda a matriz 
+		for(int i = 0; i<mat.length; i++) {
+			for(int j = 0; j<mat.length;j++) {
+				if(mat[i][j]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
 	
 }
